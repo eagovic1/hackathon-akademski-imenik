@@ -40,6 +40,7 @@ async function getAnswer(question, type, lang) {
         content: `Write me 5 to 10 sentences summary of this research paper in ${lang} language and (IMPORTANT) ${type} terminology and (FOLLOW TYPE OF TERMINOLOGY STRICTLY): ${question}`,
       },
     ],
+    temperature: 0.25,
   });
   console.log(stream.choices[0]);
   return stream.choices[0].message.content;
