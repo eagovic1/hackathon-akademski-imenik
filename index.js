@@ -10,18 +10,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 
 async function getAnswer(question) {    
-    const completion = await openai.chat.completions.create({
-        messages: [{"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Who won the world series in 2020?"},
-            {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
-            {"role": "user", "content": "Where was it played?"}],
-        model: "gpt-3.5-turbo",
-      });
-    
-      console.log(completion.choices[0]);
+    const stream = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: `Write me 10 sentence summary of this research paper: ${question}` }],
+    });
+    console.log(stream.choices[0])
 }
 
-getAnswer("Who won the world series in 2020?")
+ fs.readFile('primjer.txt', function(err,data){
+    if(err) throw err;
+    getAnswer(data);
+})
+
 
 app.listen(3000);
 
