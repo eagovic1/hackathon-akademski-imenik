@@ -4,7 +4,7 @@ const app = express();
 const fs = require('fs');
 const OpenAI = require('openai');
 
-const openai = new OpenAI({apiKey : "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"} )
+const openai = new OpenAI({apiKey : "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"} )
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
