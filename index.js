@@ -42,19 +42,16 @@ const readPDF = async (url) => {
 async function getExtractInfo(text) {
     const stream = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: `Extract the following information from the text:\nTitle:\nVenue:\nAuthors:\nEmails:\nAffiliations:\nProjects:\n${text}` }],
+        messages: [{ role: 'user', content: `(Strictly JSON, NO EXTRA TEXT) Extract the following information from the text in JSON:\nTitle:\nVenue:\nAuthors:\nEmails:\nAffiliations:\nProjects:\n${text}` }],
     });
     console.log(stream.choices[0])
     return stream.choices[0].message.content;
 }
 
 
-async function getAnswer(question, type = "", lang = "") {
+async function getAnswer(question, type, lang) {
     let prompt = "";
-    if (type == null || type == "" || type == ":type") {
-        prompt = `Write me 5 to 10 sentences summary of this research paper in english language and (IMPORTANT) general terminology and (FOLLOW TYPE OF TERMINOLOGY STRICTLY): ${question}`
-    }
-    else prompt = `Write me 5 to 10 sentences summary of this research paper in ${lang} language and (IMPORTANT) ${type} terminology and (FOLLOW TYPE OF TERMINOLOGY STRICTLY): ${question}`
+    prompt = `Write me 5 to 10 sentences summary of this research paper in ${lang} language and (IMPORTANT) ${type} terminology and (FOLLOW TYPE OF TERMINOLOGY STRICTLY): ${question}`
 
     const stream = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
@@ -74,10 +71,10 @@ async function getAnswer(question, type = "", lang = "") {
 app.get("/summary/:id/:type/:lang", function (req, res) {
     console.time("test_timer");
     if (
-        !["medical", "scientific", "technical", "simplified", "general", ":type", ""].includes(
+        !["medical", "scientific", "technical", "simplified", "general"].includes(
             req.params.type.toString()
         ) ||
-        !["english", "german", "bosnian", ":lang", ""].includes(req.params.lang.toString())
+        !["english", "german", "bosnian"].includes(req.params.lang.toString())
     ) {
         res.send("Invalid type or language");
         return;
@@ -98,7 +95,26 @@ app.get("/summary/:id/:type/:lang", function (req, res) {
         .catch(function (error) {
             console.log("er", error);
         })
-        .finally(function () { });
+});
+
+app.get("/summary/:id", function (req, res) {
+    console.time("test_timer");
+    axios
+        .get(
+            `https://api.semanticscholar.org/graph/v1/paper/${req.params.id}?openAccessPdf=true&fields=openAccessPdf`
+        )
+        .then(async function (response) {
+            const url = response.data.openAccessPdf.url;
+            console.log(response);
+
+            const read = await readPDF(response.data.openAccessPdf.url);
+            const answer = await getAnswer(read, "general", "english");
+            res.send(answer);
+            console.timeEnd("test_timer");
+        })
+        .catch(function (error) {
+            console.log("er", error);
+        })
 });
 
 app.get('/info/:id', function (req, res) {
