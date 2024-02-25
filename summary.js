@@ -3,11 +3,14 @@ const app = express();
 const axios = require("axios");
 const OpenAI = require("openai");
 const request = require("request");
+const path = require("path");
 const pdf = require("pdf-parse");
 const { constrainedMemory } = require("process");
 const openai = new OpenAI({
   apiKey: "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",
 });
+app.use(express.static(path.join(__dirname, "public")));
+
 
 const downloadPDF = (url) => {
   return new Promise((resolve, reject) => {
