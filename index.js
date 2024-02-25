@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const OpenAI = require("openai");
@@ -8,8 +9,9 @@ const path = require('path');
 const pdf = require('pdf-parse');
 const { Console } = require('console');
 const pdfUrl = 'your-pdf-url';
+
 const openai = new OpenAI({
-    apiKey: "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"
+    apiKey: process.env.api_key_gpt
 });
 
 app.use(bodyParser.json());
