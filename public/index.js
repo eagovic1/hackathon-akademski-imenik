@@ -9,9 +9,8 @@ async function search() {
   await fetch(`/summary/${id}/${type}/${lang}`)
     .then((response) => response.text())
     .then((data) => {
-      console.log(data)
-      console.log(JSON.parse(data))
-      if (JSON.parse(data)["error"]) {
+     
+      if (data=="error") {
         window.alert("INVALID ID")
         invalid = true
         return;
