@@ -8,7 +8,7 @@ const path = require('path');
 const pdf = require('pdf-parse');
 const pdfUrl = 'your-pdf-url';
 const openai = new OpenAI({
-    apiKey: "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"
+    apiKey: "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"
 });
 
 app.use(bodyParser.json());
@@ -42,7 +42,7 @@ const readPDF = async (url) => {
 async function getExtractInfo(text) {
     const stream = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: `(Strictly JSON, NO EXTRA TEXT) Extract the following information from the text in JSON:\nTitle:\nVenue:\nAuthors:\nEmails:\nAffiliations:\nProjects:\n${text}` }],
+        messages: [{ role: 'user', content: `(Strictly JSON, NO EXTRA TEXT) Extract the following information from the text in JSON (affiliations return like ARRAY OF STRINGS):\nTitle:\nVenue:\nAuthors:\nEmails:\nAffiliations:\nProjects:\n${text}` }],
     });
     console.log(stream.choices[0])
     return stream.choices[0].message.content;
