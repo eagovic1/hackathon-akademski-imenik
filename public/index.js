@@ -4,13 +4,18 @@ async function search() {
   let type = document.getElementById("type-dropdown").value;
   let id = document.getElementById("paper-id").value;
 
+  invalid = false
+
   await fetch(`/summary/${id}/${type}/${lang}`)
     .then((response) => response.text())
     .then((data) => {
       console.log(data)
       console.log(JSON.parse(data))
-      if(JSON.parse(data)["error"])
+      if (JSON.parse(data)["error"]) {
         window.alert("INVALID ID")
+        invalid = true
+        return;
+      }
       let formattedData = "<p>";
       formattedData += `<strong>Summary: </strong> ${data} </p>`;
       document.getElementById("summary-content").innerHTML = formattedData;
@@ -19,6 +24,7 @@ async function search() {
       console.log(error);
     });
 
+  if (invalid) return
 
   await fetch(`/info/${id}`)
     .then((response) => response.text())
@@ -30,17 +36,17 @@ async function search() {
           let value = JSON.parse(data)[key];
           if (Array.isArray(value)) {
             if (value.length > 0 && typeof value[0] === 'object') {
-              for (let i = 0; i < value.length; i++) { 
-                  const clan = value[i];
-                  for (const key1 in clan) {
-                      affiliations.push(clan[key1]);
-                  }
+              for (let i = 0; i < value.length; i++) {
+                const clan = value[i];
+                for (const key1 in clan) {
+                  affiliations.push(clan[key1]);
+                }
               }
               formattedData += `<li><strong>${key}:</strong> ${affiliations.join(", ")}</li>`;
-          }
+            }
             value = value.join(", ");
           }
-          if(value && affiliations.length == 0){
+          if (value && affiliations.length == 0) {
             formattedData += `<li><strong>${key}:</strong> ${value}</li>`;
           }
         }
