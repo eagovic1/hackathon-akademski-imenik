@@ -3,10 +3,13 @@ const app = express();
 const axios = require("axios");
 const OpenAI = require("openai");
 const request = require("request");
+const path = require("path");
 const pdf = require("pdf-parse");
 const openai = new OpenAI({
   apiKey: "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",
 });
+app.use(express.static(path.join(__dirname, "public")));
+
 
 const downloadPDF = (url) => {
   return new Promise((resolve, reject) => {
