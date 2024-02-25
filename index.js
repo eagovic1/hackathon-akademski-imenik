@@ -4,6 +4,7 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const OpenAI = require("openai");
 const request = require('request');
+const path = require('path');
 const pdf = require('pdf-parse');
 const pdfUrl = 'your-pdf-url';
 const openai = new OpenAI({
