@@ -7,7 +7,9 @@ async function search() {
   await fetch(`/summary/${id}/${type}/${lang}`)
     .then((response) => response.text())
     .then((data) => {
-      document.getElementById("summary-content").innerText = data;
+      let formattedData = "<p>";
+      formattedData += `<strong>Summary: </strong> ${data} </p>`;
+      document.getElementById("summary-content").innerHTML = formattedData;
     })
     .catch(function (error) {
       console.log(error);
