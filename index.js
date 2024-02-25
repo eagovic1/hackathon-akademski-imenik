@@ -72,7 +72,7 @@ async function getAnswer(question, type, lang) {
 app.get("/summary/:id/:type/:lang", function (req, res) {
     console.time("test_timer");
     if (
-        !["medical", "scientific", "technical", "simplified", "general"].includes(
+        !["scientific", "simplified"].includes(
             req.params.type.toString()
         ) ||
         !["english", "german", "bosnian"].includes(req.params.lang.toString())
