@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BH AKADEMSKI IMENIK</title>
 
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-  </head>
-  <body>
-    <div id="body">
-      <div id="input">
-        <input type="text" name="" id="paper-id" />
-        <select name="" id="type-dropdown">
-          <option value="general">General</option>
-          <option value="simplified">Simplified</option>
-          <option value="scientific">Scientific</option>
-          <option value="technical">Technical</option>
-          <option value="medical">Medical</option>
-        </select>
-        <select name="" id="lang-dropdown">
-          <option value="english">English</option>
-          <option value="german">German</option>
-          <option value="bosnian">Bosnian</option>
-        </select>
-        <button onclick="search()">SEARCH</button>
-      </div>
-      <div id="summary">
-        <div id="summary-title">
-          <h1>Summary</h1>
-        </div>
-        <div id="summary-content"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BH AKADEMSKI IMENIK</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+
+<body>
+  <div id="body">
+    <div id="input">
+      <input type="text" name="" id="paper-id" />
+      <select name="" id="type-dropdown">
+        <option value="general">General</option>
+        <option value="simplified">Simplified</option>
+        <option value="scientific">Scientific</option>
+        <option value="technical">Technical</option>
+        <option value="medical">Medical</option>
+      </select>
+      <select name="" id="lang-dropdown">
+        <option value="english">English</option>
+        <option value="german">German</option>
+        <option value="bosnian">Bosnian</option>
+      </select>
+      <button onclick="search()">SEARCH</button>
+    </div>
+    <div id="info">
+      <h1>Info</h1>
+      <div id="info-content">
       </div>
     </div>
-    <script src="index.js"></script>
-  </body>
+    <div id="summary">
+      <h1>Summary</h1>
+      <div id="summary-content"></div>
+    </div>
+  </div>
+  <script src="index.js"></script>
+</body>
+
 </html>
