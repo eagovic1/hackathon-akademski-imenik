@@ -45,6 +45,7 @@ const downloadPDF = (url) => {
     }
 
 app.get('/info/:id', function(req, res){
+  console.time("info_test");
     axios.get(`https://api.semanticscholar.org/graph/v1/paper/${req.params.id}?openAccessPdf=true&fields=openAccessPdf`)
     .then(async function(response) {
         const url = response.data.openAccessPdf.url;
@@ -52,6 +53,7 @@ app.get('/info/:id', function(req, res){
         const read = await readPDF(response.data.openAccessPdf.url);
         const answer = await getExtractInfo(read);
         res.send(answer);
+        console.timeEnd("info_test");
     }).catch(function (error) {
     console.log(error);
     })
