@@ -7,6 +7,10 @@ async function search() {
   await fetch(`/summary/${id}/${type}/${lang}`)
     .then((response) => response.text())
     .then((data) => {
+      console.log(data)
+      console.log(JSON.parse(data))
+      if(JSON.parse(data)["error"])
+        window.alert("INVALID ID")
       let formattedData = "<p>";
       formattedData += `<strong>Summary: </strong> ${data} </p>`;
       document.getElementById("summary-content").innerHTML = formattedData;
