@@ -6,6 +6,7 @@ const OpenAI = require("openai");
 const request = require('request');
 const path = require('path');
 const pdf = require('pdf-parse');
+const { Console } = require('console');
 const pdfUrl = 'your-pdf-url';
 const openai = new OpenAI({
     apiKey: "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"
@@ -80,21 +81,49 @@ app.get("/summary/:id/:type/:lang", function (req, res) {
         return;
     }
     axios
-        .get(
-            `https://api.semanticscholar.org/graph/v1/paper/${req.params.id}?openAccessPdf=true&fields=openAccessPdf`
-        )
-        .then(async function (response) {
-            const url = response.data.openAccessPdf.url;
-            console.log(response);
+    .get(
+      `https://api.semanticscholar.org/graph/v1/paper/${req.params.id}?openAccessPdf=true&fields=openAccessPdf,abstract`
+    )
+    .then(async function (response) {
+      const url = response.data.openAccessPdf.url;
+      //console.log(response.data.openAccessPdf.url);
+      //  console.log(response);
 
-            const read = await readPDF(response.data.openAccessPdf.url);
-            const answer = await getAnswer(read, req.params.type, req.params.lang);
+      const read = await readPDF(response.data.openAccessPdf.url);
+
+      if (read == "Error while reading PDF. It doesn't exist on the server or it's corrupted.") {
+
+        res.send("Greska u citanju PDF-a, ne postoji ili je pokvaren ovo je abstract ovog naučnog rada: \n" + response.data.abstract);
+      }
+      else {
+
+       // const answer = await getAnswer(read, req.params.type, req.params.lang);
+
+
+
+        let prompt = ` "[INST]Give me a translated summary with ${req.params.type} terms of maximum 1 paragraph in ONLY ${req.params.lang.toUpperCase()} language: ${read}[/INST]" `
+        console.log(prompt);
+
+        await axios.post("https://fine-turtles-smoke.loca.lt/v1/completions", {
+          model: "mistralai/Mistral-7B-Instruct-v0.2",
+          prompt: prompt,
+          max_tokens: 1000,
+          temperature: 0.25,
+        }).then
+          (async function (response) {
+
+            const answer = await response.data.choices[0].text;
+            console.log(answer);
             res.send(answer);
-            console.timeEnd("test_timer");
-        })
-        .catch(function (error) {
-            console.log("er", error);
-        })
+          }).catch(function (error) {
+            console.log("Greska", error);
+          });
+
+      }
+    })
+    .catch(function (error) {
+      console.log("er", error);
+    })
 });
 
 app.get("/summary/:id", function (req, res) {
