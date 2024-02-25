@@ -123,7 +123,7 @@ app.get("/summary/:id/:type/:lang", function (req, res) {
         })
         .catch(function (error) {
             console.log("er", error);
-            res.json({ error: "ERROR" })
+            res.send("error")
         })
 });
 
