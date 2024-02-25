@@ -12,4 +12,14 @@ function search() {
     .catch(function (error) {
       console.log(error);
     });
+
+
+  fetch(`/info/${id}`)
+    .then((response) => response.text())
+    .then((data) => {
+      document.getElementById("info-content").innerText = data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }

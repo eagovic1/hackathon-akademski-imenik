@@ -1,40 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BH AKADEMSKI IMENIK</title>
 
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-  </head>
-  <body>
-    <div id="body">
-      <div id="input">
-        <input type="text" name="" id="paper-id" />
-        <select name="" id="type-dropdown">
-          <option value="general">General</option>
-          <option value="simplified">Simplified</option>
-          <option value="scientific">Scientific</option>
-          <option value="technical">Technical</option>
-          <option value="medical">Medical</option>
-        </select>
-        <select name="" id="lang-dropdown">
-          <option value="english">English</option>
-          <option value="german">German</option>
-          <option value="bosnian">Bosnian</option>
-        </select>
-        <button onclick="search()">SEARCH</button>
-      </div>
-      <div id="summary">
-        <div id="summary-title">
-          <h1>Summary</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BH AKADEMSKI IMENIK</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="text">Summary Snapshot with Metadata Insights</div>
+    <form action="#">
+      <div class="form-row">
+        <div class="input-data">
+          <input type="text" required>
+          <div class="underline"></div>
+          <label for="">Paper Id</label>
         </div>
-        <div id="summary-content"></div>
+
       </div>
-    </div>
-    <script src="index.js"></script>
-  </body>
+      <div class="form-row">
+        <div class="input-data">
+          <select required>
+            <option value="General">General</option>
+            <option value="Simplified">Simplified</option>
+            <option value="Scientific">Scientific</option>
+            <option value="Technical">Technical</option>
+            <option value="Medical">Medical</option>
+          </select>
+          <div class="underline"></div>
+
+        </div>
+        <div class="input-data">
+          <select required>
+            <option value="English">English</option>
+            <option value="Bosnian">Bosnian</option>
+            <option value="German">German</option>
+          </select>
+          <div class="underline"></div>
+        </div>
+      </div>
+
+      <div class="form-row submit-btn">
+        <div class="input-data">
+          <div class="inner"></div>
+          <input type="submit" value="SEARCH">
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
 </html>
