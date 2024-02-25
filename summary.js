@@ -6,7 +6,7 @@ const request = require("request");
 const pdf = require("pdf-parse");
 const { constrainedMemory } = require("process");
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 const downloadPDF = (url) => {
@@ -25,10 +25,10 @@ const readPDF = async (url) => {
   try {
     const pdfBuffer = await downloadPDF(url);
     const data = await pdf(pdfBuffer);
-
+    console.log("JFHSAJFAJ", data.text)
     return data.text;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("ErRor:", error);
   }
 };
 
@@ -38,18 +38,20 @@ async function getAnswer(question, type ="", lang ="" ) {
     prompt = `Write me 5 to 10 sentences summary of this research paper in english language and (IMPORTANT) general terminology and (FOLLOW TYPE OF TERMINOLOGY STRICTLY): ${question}`
   }
   else prompt = `Write me 5 to 10 sentences summary of this research paper in ${lang} language and (IMPORTANT) ${type} terminology and (FOLLOW TYPE OF TERMINOLOGY STRICTLY): ${question}`
-  console.log(prompt);
+  
   const stream = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
+    
     messages: [
       {
         role: "user",
         content: prompt,
+       
       },
     ],
     temperature: 0.25,
   });
-  console.log(stream.choices[0]);
+ // console.log(stream.choices[0]);
   return stream.choices[0].message.content;
 }
 
@@ -70,14 +72,16 @@ app.get("/summary/:id/:type/:lang", function (req, res) {
     )
     .then(async function (response) {
       const url = response.data.openAccessPdf.url;
-      console.log(response.data.openAccessPdf.url);
+      //console.log(response.data.openAccessPdf.url);
+      console.log(response);
+      
       const read = await readPDF(response.data.openAccessPdf.url);
       const answer = await getAnswer(read, req.params.type, req.params.lang);
       res.send(answer);
       console.timeEnd("test_timer");
     })
     .catch(function (error) {
-      console.log(error);
+      console.log("er" , error);
     })
     .finally(function () {});
 });
